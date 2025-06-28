@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Management</title>
+    <script>
+        const baseUrl = '/transaction';
+
+        async function createTransaction() {
+            const transaction = {
+                // 根据实际需要填写字段
+                id: document.getElementById('transactionId').value,
+                name: document.getElementById('transactionName').value
+            };
+            const userId = document.getElementById('userId').value;
+
+            const response = await fetch(`${baseUrl}/create?userId=${userId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(transaction)
+            });
+            const result = await response.json();
+            alert(JSON.stringify(result));
+        }
+
+        async function updateTransaction() {
+            const transaction = {
+                id: document.getElementById('transactionId').value,
+                name: document.getElementById('transactionName').value
+            };
+            const userId = document.getElementById('userId').value;
+
+            const response = await fetch(`${baseUrl}/update?userId=${userId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(transaction)
+            });
+            const result = await response.json();
+            alert(JSON.stringify(result));
+        }
+
+        async function getTransactionById() {
+            const id = document.getElementById('transactionId').value;
+            const userId = document.getElementById('userId').value;
+
+            const response = await fetch(`${baseUrl}/${id}?userId=${userId}`);
+            const result = await response.json();
+            alert(JSON.stringify(result));
+        }
+
+        async function deleteTransaction() {
+            const id = document.getElementById('transactionId').value;
+            const userId = document.getElementById('userId').value;
+
+            const response = await fetch(`${baseUrl}/${id}?userId=${userId}`, {
+                method: 'DELETE'
+            });
+            const result = await response.json();
+            alert(JSON.stringify(result));
+        }
+
+        async function searchTransaction() {
+            const searchVO = {
+                // 根据实际需要填写搜索条件
+                keyword: document.getElementById('searchKeyword').value
+            };
+
+            const response = await fetch(`${baseUrl}/search`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(searchVO)
+            });
+            const result = await response.json();
+            alert(JSON.stringify(result));
+        }
+    </script>
+</head>
+<body>
+<h1>Transaction Management</h1>
+<div>
+    <label for="transactionId">Transaction ID:</label>
+    <input type="text" id="transactionId">
+</div>
+<div>
+    <label for="transactionName">Transaction Name:</label>
+    <input type="text" id="transactionName">
+</div>
+<div>
+    <label for="userId">User ID:</label>
+    <input type="text" id="userId">
+</div>
+<div>
+    <label for="searchKeyword">Search Keyword:</label>
+    <input type="text" id="searchKeyword">
+</div>
+<button onclick="createTransaction()">Create Transaction</button>
+<button onclick="updateTransaction()">Update Transaction</button>
+<button onclick="getTransactionById()">Get Transaction By ID</button>
+<button onclick="deleteTransaction()">Delete Transaction</button>
+<button onclick="searchTransaction()">Search Transaction</button>
+</body>
+</html>
